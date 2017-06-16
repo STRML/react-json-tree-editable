@@ -65,6 +65,7 @@
   },
   "dependencies": {
     "babel-runtime": "^6.6.1",
+    "prop-types": "^15.5.10",
     "react-base16-styling": "^0.5.1"
   },
   "pre-commit": "lint"
