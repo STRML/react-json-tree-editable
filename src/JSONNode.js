@@ -5,6 +5,42 @@ import JSONArrayNode from './JSONArrayNode';
 import JSONIterableNode from './JSONIterableNode';
 import JSONValueNode from './JSONValueNode';
 
+const typeMap = {
+  Object: props => <JSONObjectNode {...props} />,
+  Error: props => <JSONObjectNode {...props} />,
+  WeakMap: props => <JSONObjectNode {...props} />,
+  WeakSet: props => <JSONObjectNode {...props} />,
+
+  Array: props => <JSONArrayNode {...props} />,
+
+  Iterable: props => <JSONIterableNode {...props} />,
+  Map: props => <JSONIterableNode {...props} />,
+  Set: props => <JSONIterableNode {...props} />,
+
+  Number: props => <JSONValueNode {...props} />,
+  Custom: props => <JSONValueNode {...props} />,
+
+  String: props => <JSONValueNode {...props} valueGetter={raw => `"${raw}"`} />,
+  Boolean: props => <JSONValueNode {...props} valueGetter={raw => (raw ? 'true' : 'false')} />,
+  Date: props => <JSONValueNode {...props} valueGetter={raw => raw.toISOString()} />,
+  Null: props => <JSONValueNode {...props} valueGetter={() => 'null'} />,
+  Undefined: props => <JSONValueNode {...props} valueGetter={() => 'undefined'} />,
+
+  Function: props => <JSONValueNode {...props} valueGetter={raw => raw.toString()} />,
+  Symbol: props => <JSONValueNode {...props} valueGetter={raw => raw.toString()} />
+};
+
+const nestedTypes = {
+  Object: true,
+  Error: true,
+  WeakMap: true,
+  WeakSet: true,
+  Array: true,
+  Iterable: true,
+  Map: true,
+  Set: true
+};
+
 const JSONNode = ({
   getItemString,
   keyPath,
@@ -38,38 +74,11 @@ const JSONNode = ({
     onChange,
   };
 
-  switch (nodeType) {
-    case 'Object':
-    case 'Error':
-    case 'WeakMap':
-    case 'WeakSet':
-      return <JSONObjectNode {...nestedNodeProps} />;
-    case 'Array':
-      return <JSONArrayNode {...nestedNodeProps} />;
-    case 'Iterable':
-    case 'Map':
-    case 'Set':
-      return <JSONIterableNode {...nestedNodeProps} />;
-    case 'String':
-      return <JSONValueNode {...simpleNodeProps} valueGetter={raw => `"${raw}"`} />;
-    case 'Number':
-      return <JSONValueNode {...simpleNodeProps} />;
-    case 'Boolean':
-      return <JSONValueNode {...simpleNodeProps} valueGetter={raw => (raw ? 'true' : 'false')} />;
-    case 'Date':
-      return <JSONValueNode {...simpleNodeProps} valueGetter={raw => raw.toISOString()} />;
-    case 'Null':
-      return <JSONValueNode {...simpleNodeProps} valueGetter={() => 'null'} />;
-    case 'Undefined':
-      return <JSONValueNode {...simpleNodeProps} valueGetter={() => 'undefined'} />;
-    case 'Function':
-    case 'Symbol':
-      return <JSONValueNode {...simpleNodeProps} valueGetter={raw => raw.toString()} />;
-    case 'Custom':
-      return <JSONValueNode {...simpleNodeProps} />;
-    default:
-      return null;
-  }
+  const handler = typeMap[nodeType];
+  if (!handler) { return null; }
+
+  const isNested = nestedTypes[nodeType];
+  return handler(isNested ? nestedNodeProps : simpleNodeProps);
 };
 
 JSONNode.propTypes = {

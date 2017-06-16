@@ -4,5 +4,9 @@ export default function objType(obj) {
     return 'Iterable';
   }
 
+  if (type.includes('Array')) {
+    return 'Array';
+  }
+
   return type;
 }
