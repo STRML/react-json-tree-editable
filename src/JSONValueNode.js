@@ -49,7 +49,7 @@ export default class JSONValueNode extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.value !== this.state.value) {
+    if (nextProps.value !== this.state.value && !this.state.editing) {
       this.setState({
         value: getString(nextProps),
       });
