@@ -49,6 +49,7 @@ const getDefaultThemeStyling = theme => {
     value: ({ style }, nodeType, keyPath) => ({
       style: {
         ...style,
+        whiteSpace: 'nowrap',
         paddingTop: '0.25em',
         paddingRight: 0,
         marginLeft: '0.875em',

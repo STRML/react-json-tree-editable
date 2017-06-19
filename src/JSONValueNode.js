@@ -100,7 +100,11 @@ export default class JSONValueNode extends React.Component {
           <input
             onChange={this.updateValue}
             onKeyDown={this.keydown}
-            {...styling('valueText', nodeType, keyPath)}
+            style={{
+              ...styling('valueText', nodeType, keyPath).style,
+              width: '100%',
+              overflow: 'hidden'
+            }}
             value={value}
             type='text'
             autoFocus
