@@ -9,7 +9,7 @@ function createItemString(data, limit) {
   if (Number.isSafeInteger(data.size)) {
     count = data.size;
   } else {
-    for (const entry of data) { // eslint-disable-line no-unused-vars
+    for (const entry of data) { // eslint-disable-line no-unused-vars, no-restricted-syntax
       if (limit && count + 1 > limit) {
         hasMore = true;
         break;

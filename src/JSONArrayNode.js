@@ -11,14 +11,14 @@ function createItemString(data) {
 
 // Configures <JSONNestedNode> to render an Array
 const JSONArrayNode = ({ data, ...props }) =>
-  <JSONNestedNode
+  (<JSONNestedNode
     {...props}
     data={data}
     nodeType='Array'
     nodeTypeIndicator='[]'
     createItemString={createItemString}
     expandable={data.length > 0}
-  />;
+  />);
 
 JSONArrayNode.propTypes = {
   data: PropTypes.array

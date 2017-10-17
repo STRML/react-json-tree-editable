@@ -38,6 +38,7 @@ function getEntries(type, collection, sortObjectKeys, from=0, to=Infinity) {
 
     const isMap = isIterableMap(collection);
 
+    // eslint-disable-next-line no-restricted-syntax
     for (const item of collection) {
       if (idx > to) {
         done = false;
@@ -47,10 +48,13 @@ function getEntries(type, collection, sortObjectKeys, from=0, to=Infinity) {
           if (typeof item[0] === 'string' || typeof item[0] === 'number') {
             entries.push({ key: item[0], value: item[1] });
           } else {
-            entries.push({ key: `[entry ${idx}]`, value: {
-              '[key]': item[0],
-              '[value]': item[1]
-            } });
+            entries.push({
+              key: `[entry ${idx}]`,
+              value: {
+                '[key]': item[0],
+                '[value]': item[1]
+              }
+            });
           }
         } else {
           entries.push({ key: idx, value: item });
@@ -71,7 +75,7 @@ function getEntries(type, collection, sortObjectKeys, from=0, to=Infinity) {
 function getRanges(from, to, limit) {
   const ranges = [];
   while (to - from > limit * limit) {
-    limit = limit * limit;
+    limit *= limit;
   }
   for (let i = from; i <= to; i += limit) {
     ranges.push({ from: i, to: Math.min(to, i + limit - 1) });
@@ -80,9 +84,7 @@ function getRanges(from, to, limit) {
   return ranges;
 }
 
-export default function getCollectionEntries(
-  type, collection, sortObjectKeys, limit, from=0, to=Infinity
-) {
+export default function getCollectionEntries(type, collection, sortObjectKeys, limit, from=0, to=Infinity) {
   const getEntriesBound = getEntries.bind(null, type, collection, sortObjectKeys);
 
   if (!limit) {
@@ -96,10 +98,8 @@ export default function getCollectionEntries(
     if (length <= limit || limit < 7) {
       return getEntriesBound(from, to).entries;
     }
-  } else {
-    if (length <= limit && !isSubset) {
-      return getEntriesBound(from, to).entries;
-    }
+  } else if (length <= limit && !isSubset) {
+    return getEntriesBound(from, to).entries;
   }
 
   let limitedEntries;

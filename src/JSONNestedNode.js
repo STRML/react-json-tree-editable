@@ -22,17 +22,15 @@ function renderChildNodes(props, from, to) {
   } = props;
   const childNodes = [];
 
-  getCollectionEntries(nodeType, data, sortObjectKeys, collectionLimit, from, to).forEach(entry => {
+  getCollectionEntries(nodeType, data, sortObjectKeys, collectionLimit, from, to).forEach((entry) => {
     if (entry.to) {
-      childNodes.push(
-        <ItemRange
-          {...props}
-          key={`ItemRange--${entry.from}-${entry.to}`}
-          from={entry.from}
-          to={entry.to}
-          renderChildNodes={renderChildNodes}
-        />
-      );
+      childNodes.push(<ItemRange
+        {...props}
+        key={`ItemRange--${entry.from}-${entry.to}`}
+        from={entry.from}
+        to={entry.to}
+        renderChildNodes={renderChildNodes}
+      />);
     } else {
       const { key, value } = entry;
       const isCircular = circularCache.indexOf(value) !== -1;
@@ -79,9 +77,7 @@ export default class JSONNestedNode extends React.Component {
     createItemString: PropTypes.func.isRequired,
     styling: PropTypes.func.isRequired,
     collectionLimit: PropTypes.number,
-    keyPath: PropTypes.arrayOf(
-      PropTypes.oneOfType([PropTypes.string, PropTypes.number])
-    ).isRequired,
+    keyPath: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number])).isRequired,
     labelRenderer: PropTypes.func.isRequired,
     shouldExpandNode: PropTypes.func,
     level: PropTypes.number.isRequired,
@@ -116,8 +112,7 @@ export default class JSONNestedNode extends React.Component {
       key !== 'circularCache' &&
       (key === 'keyPath' ?
         nextProps[key].join('/') !== this.props[key].join('/') :
-        nextProps[key] !== this.props[key])
-    ) || nextState.expanded !== this.state.expanded;
+        nextProps[key] !== this.props[key])) || nextState.expanded !== this.state.expanded;
   }
 
   render() {

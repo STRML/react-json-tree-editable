@@ -12,8 +12,8 @@ const replaces = {
   undefined,
 };
 
-const transformString = value => {
-  const replaced = replaces.hasOwnProperty(value) ? replaces[value] : value;
+const transformString = (value) => {
+  const replaced = Object.prototype.hasOwnProperty.call(replaces, value) ? replaces[value] : value;
   return !isNaN(parseFloat(replaced)) && isFinite(replaced) ? Number(replaced) : replaced;
 };
 
@@ -23,23 +23,20 @@ const getString = ({ value, nodeType, valueGetter }) => {
 };
 
 export default class JSONValueNode extends React.Component {
-
   static propTypes = {
     nodeType: PropTypes.string.isRequired,
     styling: PropTypes.func.isRequired,
     labelRenderer: PropTypes.func.isRequired,
-    keyPath: PropTypes.arrayOf(
-      PropTypes.oneOfType([PropTypes.string, PropTypes.number])
-    ).isRequired,
+    keyPath: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number])).isRequired,
     valueRenderer: PropTypes.func.isRequired,
-    value: PropTypes.any,
+    value: PropTypes.mixed.isRequired,
     valueGetter: PropTypes.func,
-    onChange: PropTypes.func,
+    onChange: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
     valueGetter: value => value,
-  }
+  };
 
   constructor(props) {
     super(props);
@@ -57,7 +54,7 @@ export default class JSONValueNode extends React.Component {
     }
   }
 
-  keydown = e => {
+  keydown = (e) => {
     // Echap, remove edit mode and reset value
     if (e.keyCode === 27) {
       this.setState({ editing: false, value: getString(this.props) });

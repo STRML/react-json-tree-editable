@@ -3,15 +3,15 @@
 // Dave Vedder <veddermatic@gmail.com> http://www.eskimospy.com/
 // port by Daniele Zannotti http://www.github.com/dzannotti <dzannotti@me.com>
 
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
+import { invertTheme } from 'react-base16-styling';
 import JSONNode from './JSONNode';
 import createStylingFromTheme from './createStylingFromTheme';
-import { invertTheme } from 'react-base16-styling';
 
 const identity = value => value;
 const expandRootNode = (keyName, data, level) => level === 0;
-const defaultItemString = (type, data, itemType, itemString) =>
-  <span>{itemType} {itemString}</span>;
+const defaultItemString = (type, data, itemType, itemString) => <span>{itemType} {itemString}</span>;
 const defaultLabelRenderer = ([label]) => <span>{label}:</span>;
 const noCustomNode = () => false;
 
@@ -36,10 +36,9 @@ function checkLegacyTheming(theme, props) {
       theme = { ...theme };
     }
 
-    deprecatedStylingMethods.forEach(name => {
-      console.error( // eslint-disable-line no-console
-        `Styling method "${name}" is deprecated, use "theme" property instead`
-      );
+    deprecatedStylingMethods.forEach((name) => {
+      // eslint-disable-next-line no-console
+      console.error(`Styling method "${name}" is deprecated, use "theme" property instead`);
 
       theme[deprecatedStylingMethodsMap[name]] = ({ style }, ...args) => ({
         style: {
@@ -140,7 +139,9 @@ export default class JSONTree extends React.Component {
     return (
       <ul {...styling('tree')}>
         <JSONNode
-          {...{ postprocessValue, hideRoot, styling, ...rest }}
+          {...{
+ postprocessValue, hideRoot, styling, ...rest
+}}
           keyPath={hideRoot ? [] : keyPath}
           value={postprocessValue(value)}
         />

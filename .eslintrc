@@ -1,6 +1,6 @@
 {
   "parser": "babel-eslint",
-  "extends": "eslint-config-airbnb",
+  "extends": ["eslint-config-airbnb-base", "plugin:react/recommended"],
   "env": {
     "browser": true,
     "mocha": true,
@@ -14,7 +14,11 @@
     // "react/react-in-jsx-scope": 2,
     // "no-console": 1,
     // "no-dupe-keys": 0,
+    "no-mixed-operators": 0,
     "no-param-reassign": 0,
+    "no-plusplus": 0,
+    "no-restricted-globals": 0,
+    "max-len": 0,
     // Disables warning for default arguments (to be removed)
     "space-infix-ops": 0,
     "react/sort-comp": [
@@ -43,7 +47,9 @@
           ]
         }
       }
-    ]
+    ],
+    "react/jsx-filename-extension": 0,
+    "react/display-name": 0,
   },
   "plugins": [
     "react",

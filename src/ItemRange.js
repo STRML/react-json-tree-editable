@@ -19,7 +19,9 @@ export default class ItemRange extends React.Component {
   }
 
   render() {
-    const { styling, from, to, renderChildNodes, nodeType } = this.props;
+    const {
+      styling, from, to, renderChildNodes, nodeType
+    } = this.props;
 
     return (this.state.expanded ?
       <div {...styling('itemRange', this.state.expanded)}>
