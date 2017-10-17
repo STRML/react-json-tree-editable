@@ -29,7 +29,7 @@ export default class JSONValueNode extends React.Component {
     labelRenderer: PropTypes.func.isRequired,
     keyPath: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number])).isRequired,
     valueRenderer: PropTypes.func.isRequired,
-    value: PropTypes.mixed.isRequired,
+    value: PropTypes.any.isRequired,
     valueGetter: PropTypes.func,
     onChange: PropTypes.func.isRequired,
   }
