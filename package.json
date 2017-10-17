@@ -10,6 +10,7 @@
     "test": "npm run lint && NODE_ENV=test mocha --compilers js:babel-core/register --recursive",
     "test:watch": "NODE_ENV=test mocha --compilers js:babel-core/register --recursive --watch",
     "test:cov": "babel-node ./node_modules/.bin/isparta cover ./node_modules/.bin/_mocha -- --recursive",
+    "prepublishOnly": "npm run test && npm run clean && npm run build",
     "start": "cd examples && npm start"
   },
   "repository": {
