@@ -63,7 +63,8 @@ function getStateFromProps(props) {
     props.shouldExpandNode(props.keyPath, props.data, props.level) :
     false;
   return {
-    expanded
+    expanded,
+    lastExpanded: expanded,
   };
 }
 
@@ -93,18 +94,20 @@ export default class JSONNestedNode extends React.Component {
     expandable: true
   };
 
+  // If props change such that this item's expandability changes,
+  // change it. This allows clicking to expand/unexpand while still
+  // responding to props, while not needlessly changing.
+  static getDerivedStateFromProps(props, state) {
+    const derivedState = getStateFromProps(props);
+    if (derivedState.expanded !== state.lastExpanded) {
+      return derivedState;
+    }
+    return null;
+  }
+
   constructor(props) {
     super(props);
     this.state = getStateFromProps(props);
-  }
-
-  componentWillReceiveProps(nextProps) {
-    const nextState = getStateFromProps(nextProps);
-    if (
-      getStateFromProps(this.props).expanded !== nextState.expanded
-    ) {
-      this.setState(nextState);
-    }
   }
 
   shouldComponentUpdate(nextProps, nextState) {

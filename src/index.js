@@ -68,7 +68,9 @@ function getStateFromProps(props) {
     }
   }
   return {
-    styling: createStylingFromTheme(theme)
+    styling: createStylingFromTheme(theme),
+    // So that getDerivedStateFromProps works
+    lastTheme: { theme: props.theme, invertTheme: props.invertTheme },
   };
 }
 
@@ -104,15 +106,17 @@ export default class JSONTree extends React.Component {
     onChange: identity,
   };
 
+  // If the incoming theme changes, rewrite styling.
+  static getDerivedStateFromProps(props, state) {
+    if (props.theme !== state.lastTheme.theme || props.invertTheme !== state.lastTheme.invertTheme) {
+      return getStateFromProps(props);
+    }
+    return null;
+  }
+
   constructor(props) {
     super(props);
     this.state = getStateFromProps(props);
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (['theme', 'invertTheme'].find(k => nextProps[k] !== this.props[k])) {
-      this.setState(getStateFromProps(nextProps));
-    }
   }
 
   shouldComponentUpdate(nextProps) {

@@ -91,7 +91,7 @@ JSONNode.propTypes = {
   value: PropTypes.any,
   valueRenderer: PropTypes.func.isRequired,
   isCustomNode: PropTypes.func.isRequired,
-  onChange: PropTypes.func,
+  onChange: PropTypes.func.isRequired,
 };
 
 export default JSONNode;

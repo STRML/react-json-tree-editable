@@ -38,20 +38,26 @@ export default class JSONValueNode extends React.Component {
     valueGetter: value => value,
   };
 
+  static getDerivedStateFromProps(props, state) {
+    // If the props value changes and we're not currently editing,
+    // it should be reflected in this component.
+    if (props.value !== state.lastValue && !state.editing) {
+      const value = getString(props);
+      return {
+        value,
+        lastValue: value,
+      };
+    }
+    return null;
+  }
+
   constructor(props) {
     super(props);
     this.state = {
       value: getString(props),
+      lastValue: getString(props), // For gDSFP
       editing: false,
     };
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.value !== this.state.value && !this.state.editing) {
-      this.setState({
-        value: getString(nextProps),
-      });
-    }
   }
 
   keydown = (e) => {
