@@ -140,8 +140,8 @@ export default class JSONTree extends React.Component {
       <ul {...styling('tree')}>
         <JSONNode
           {...{
- postprocessValue, hideRoot, styling, ...rest
-}}
+            postprocessValue, hideRoot, styling, ...rest
+          }}
           keyPath={hideRoot ? [] : keyPath}
           value={postprocessValue(value)}
         />
